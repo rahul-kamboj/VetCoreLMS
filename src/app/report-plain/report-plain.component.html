@@ -1,0 +1,86 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Pet Name:</strong>&nbsp; {{formValue.petName}}
+      </div>
+      <div class="col-6">
+        <strong>Name Of Owner:</strong>&nbsp; {{formValue.nameOfOwner}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Species:</strong>&nbsp; {{formValue.species}}
+      </div>
+      <div class="col-6">
+        <strong>Source:</strong>&nbsp; {{formValue.source}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Breed:</strong>&nbsp; {{formValue.breed}}
+      </div>
+      <div class="col-6">
+        <strong>Name Of Doctor:</strong>&nbsp; {{formValue.nameOfDoctor}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Sex:</strong>&nbsp; {{formValue.sex}}
+      </div>
+      <div class="col-6">
+        <strong>Sample Received On:</strong>&nbsp; {{formValue.sampleReceivedOn | date: 'dd/MM/yyyy'}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Age:</strong>&nbsp; {{formValue.age}}
+      </div>
+      <div class="col-6">
+        <strong>Reported On:</strong>&nbsp; {{formValue.reportedOn | date: 'dd/MM/yyyy'}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <strong>Patient Id:</strong>&nbsp; {{formValue.patientId}}
+      </div>
+      <div class="col-6">
+        <strong>Lab No:</strong>&nbsp; {{formValue.labNo}}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center">
+          <div class="col">
+            <h5>Complete Blood Count(DOG)</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Test</th>
+            <th scope="col">Result</th>
+            <th scope="col">Units</th>
+            <th scope="col">Reference Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let test of formValue.tests;">
+            <td>{{test.testName}}</td>
+            <td>{{test.result}}</td>
+            <td>{{test.units}}</td>
+            <td>{{test.range}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
