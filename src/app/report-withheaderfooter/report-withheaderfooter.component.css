@@ -1,0 +1,27 @@
+.highlight {
+  color: red;
+  font-weight: bold;
+}
+
+.page-header {
+  height: 230px;
+  margin-top: 0px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("./../../images/report-header.png");
+}
+
+.page-footer {
+  height: 550px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: contain;
+  background-image: url("./../../images/report-fotter.png");
+}
+
+@media print {
+  * {
+      -webkit-print-color-adjust: exact !important; /*Chrome, Safari */
+      color-adjust: exact !important;  /*Firefox*/
+    }
+  }

@@ -20,7 +20,7 @@
           <div class="form-row">
             <div class="form-group col">
               <label>Pet Name</label>
-              <input formControlName="petName" placeholder="Pet Name" class="form-control"/>
+              <input formControlName="petName" placeholder="Pet Name" class="form-control" />
               <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                 <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
               </div> -->
@@ -30,39 +30,39 @@
         <div class="col-3">
           <div class="form-group">
             <label>Name Of Owner</label>
-            <input formControlName="nameOfOwner" placeholder="Name Of Owner" class="form-control"/>
-            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+            <input formControlName="nameOfOwner" placeholder="Name Of Owner" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
           </div>
         </div>
         <div class="col-3">
           <div class="form-row">
-              <div class="form-group col">
+            <div class="form-group col">
               <label>Name Of Doctor</label>
-              <input formControlName="nameOfDoctor" placeholder="Name Of Doctor" class="form-control"/>
+              <input formControlName="nameOfDoctor" placeholder="Name Of Doctor" class="form-control" />
               <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                   <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
               </div> -->
-              </div>
+            </div>
           </div>
-      </div>
-      <div class="col-3">
-        <div class="form-group">
-          <label>Source</label>
-          <input formControlName="source" placeholder="Source" class="form-control"/>
-          <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Source</label>
+            <input formControlName="source" placeholder="Source" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
               This client is not available. Please add this to proceed.
           </div> -->
+          </div>
         </div>
-      </div>
       </div>
       <div class="row">
         <div class="col-3">
           <div class="form-group">
             <label>Breed</label>
-            <input formControlName="breed" placeholder="Breed" class="form-control"/>
-            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+            <input formControlName="breed" placeholder="Breed" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
           </div>
@@ -71,7 +71,7 @@
           <div class="form-row">
             <div class="form-group col">
               <label>Species</label>
-              <input formControlName="species" placeholder="Species" class="form-control"/>
+              <input formControlName="species" placeholder="Species" class="form-control" />
               <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                 <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
               </div> -->
@@ -81,105 +81,109 @@
         <div class="col-3">
           <div class="form-group">
             <label>Sex</label>
-            <input formControlName="sex" placeholder="Sex" class="form-control"/>
-            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+            <input formControlName="sex" placeholder="Sex" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
           </div>
         </div>
         <div class="col-3">
-            <div class="form-row">
-                <div class="form-group col">
-                <label>Sample Received On</label>
-                <input formControlName="sampleReceivedOn" type="datetime-local" placeholder="Sample Received On" class="form-control"/>
-                <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Sample Received On</label>
+              <input formControlName="sampleReceivedOn" type="datetime-local" placeholder="Sample Received On"
+                class="form-control" />
+              <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                     <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
                 </div> -->
-                </div>
             </div>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-3">
           <div class="form-group">
             <label>Age</label>
-            <input formControlName="age" type="number" placeholder="Age" class="form-control"/>
-            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+            <input formControlName="age" type="number" placeholder="Age" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
           </div>
         </div>
         <div class="col-3">
-            <div class="form-row">
-                <div class="form-group col">
-                <label>Reported On</label>
-                <input formControlName="reportedOn" type="datetime-local" placeholder="Reported On" class="form-control"/>
-                <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Reported On</label>
+              <input formControlName="reportedOn" type="datetime-local" placeholder="Reported On"
+                class="form-control" />
+              <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                     <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
                 </div> -->
-                </div>
             </div>
+          </div>
         </div>
         <div class="col-3">
           <div class="form-group">
             <label>Patient Id</label>
-            <input formControlName="patientId" placeholder="Patient Id" class="form-control"/>
-            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">              
+            <input formControlName="patientId" placeholder="Patient Id" class="form-control" />
+            <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
           </div>
         </div>
         <div class="col-3">
-            <div class="form-row">
-                <div class="form-group col">
-                <label>Lab No</label>
-                <input formControlName="labNo" placeholder="Lab No" class="form-control"/>
-                <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Lab No</label>
+              <input formControlName="labNo" placeholder="Lab No" class="form-control" />
+              <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                     <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
                 </div> -->
-                </div>
             </div>
+          </div>
         </div>
       </div>
 
-<div class="row">
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Test</th>
-      <th scope="col">Result</th>
-      <!-- <th scope="col">Difference</th> -->
-      <th scope="col">Units</th>
-      <th scope="col">Reference Range</th>
-      <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody formArrayName="tests">
-      <tr *ngFor="let item of tests().controls; let i = index;" [formGroupName]="i">
-        <td>{{ i + 1 }}</td>
-        <td><input formControlName="testName" placeholder="Test Name" class="form-control"/></td>
-        <td><input formControlName="result" placeholder="Result" class="form-control"/></td>
-        <!-- <td>
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Test</th>
+              <th scope="col">Result</th>
+              <!-- <th scope="col">Difference</th> -->
+              <th scope="col">Units</th>
+              <th scope="col">Low Range</th>
+              <th scope="col">High Range</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="tests">
+            <tr *ngFor="let item of tests().controls; let i = index;" [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td><input formControlName="testName" placeholder="Test Name" class="form-control" /></td>
+              <td><input formControlName="result" placeholder="Result" class="form-control" /></td>
+              <!-- <td>
           <input formControlName="up" placeholder="Up" class="form-control">
           <input formControlName="down" placeholder="Down" class="form-control">
         </td> -->
-        <td><input formControlName="units" placeholder="Units" class="form-control"/></td>
-        <td><input formControlName="range" placeholder="Result" class="form-control"/></td>
-        <td><button class="btn btn-danger" (click)="removeTestParameter(i)" type="button">Remove</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+              <td><input formControlName="units" placeholder="Units" class="form-control" /></td>
+              <td><input formControlName="lowRangeValue" placeholder="Low Range" class="form-control" /></td>
+              <td><input formControlName="highRangeValue" placeholder="High Range" class="form-control" /></td>
+              <td><button class="btn btn-danger" (click)="removeTestParameter(i)" type="button">Remove</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="row">
         <div class="ml-auto form-group">
           <button class="btn btn-primary" (click)="addTestParameter()" type="button">Add Parameter</button>
           &nbsp;
           <!-- <button class="btn btn-primary" type="submit">Save Sample</button>
           &nbsp; -->
-          <a target="_blank" routerLink="../report-plain" class="btn btn-primary" (click)="passObject()" >Print</a>
+          <a target="_blank" routerLink="../report-plain" class="btn btn-primary" (click)="passObject()">Print</a>
           &nbsp;
-          <a target="_blank" routerLink="../report-plain" class="btn btn-primary">Report</a>
+          <a target="_blank" routerLink="../report-withheaderfooter" class="btn btn-primary" (click)="passObject()">Report</a>
         </div>
       </div>
     </form>

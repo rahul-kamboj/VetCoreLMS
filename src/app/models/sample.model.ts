@@ -9,7 +9,8 @@ export interface ITest {
   id: string;
   testName: string;
   units: string;
-  range: string;
+  lowRangeValue: string;
+  highRangeValue: string;
   result: string;
   up: string;
   down: string;

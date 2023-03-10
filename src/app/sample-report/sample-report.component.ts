@@ -53,7 +53,8 @@ export class SampleReportComponent implements OnInit {
         id: listItem.id,
         testName: listItem.testName,
         units: listItem.units,
-        range: listItem.range,
+        lowRangeValue: listItem.lowRangeValue,
+        highRangeValue: listItem.highRangeValue,
         result: listItem.result,
         up: listItem.up,
         down: listItem.down,
@@ -75,7 +76,8 @@ export class SampleReportComponent implements OnInit {
       id: "",
       testName: "New Parameter",
       units: "",
-      range: "",
+      lowRangeValue: "",
+      highRangeValue: "",
       result: "",
       up: "",
       down: "",
@@ -92,7 +94,7 @@ export class SampleReportComponent implements OnInit {
     localStorage.setItem('reportresult', JSON.stringify(this.sampleForm.value));
   }
 
-  onSubmit(value:any){  
+  onSubmit(value:any){
 
   }
 }
