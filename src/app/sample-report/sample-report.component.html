@@ -6,11 +6,22 @@
         <div class="col-12">
           <div class="form-row">
             <div class="form-group col">
-              <label>Test Taken</label>
-              <select formControlName="testType" class="form-control">
-                <option value="1" selected>Complete Blood Count(DOG)</option>
-                <option value="2">Complete Blood Count(CAT)</option>
+              <label>Select Report</label>
+              <input formControlName="searchTest" placeholder="Search" class="form-control" />
+              <select formControlName="testType" class="form-control mt-1" multiple>
+                <option *ngFor="let testType of filteredTestTypes" [value]="testType.id">{{testType.displayName}}
+                </option>
               </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Report Name</label>
+              <input formControlName="reportName" placeholder="Report Name" class="form-control" />
             </div>
           </div>
         </div>
@@ -39,8 +50,14 @@
         <div class="col-3">
           <div class="form-row">
             <div class="form-group col">
+              <ng-template #rt let-r="result" let-t="term">
+                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+              </ng-template>
               <label>Name Of Doctor</label>
-              <input formControlName="nameOfDoctor" placeholder="Name Of Doctor" class="form-control" />
+              <input id="typeahead-focus" formControlName="nameOfDoctor" placeholder="Name Of Doctor" [ngbTypeahead]="searchDoctor"
+                (focus)="focus$.next($any($event).target.value)" [resultTemplate]="rt"
+                (click)="click$.next($any($event).target.value)" [inputFormatter]="doctorFormatter"
+                class="form-control" />
               <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
                   <div *ngIf="f.petName.errors.required">Pet Name is required.</div>
               </div> -->
@@ -81,7 +98,11 @@
         <div class="col-3">
           <div class="form-group">
             <label>Sex</label>
-            <input formControlName="sex" placeholder="Sex" class="form-control" />
+            <div class="input-group">
+              <input type="radio" formControlName="sex" value="NA" placeholder="Sex" class="form-control" />NA
+              <input type="radio" formControlName="sex" value="Male" placeholder="Sex" class="form-control" />Male
+              <input type="radio" formControlName="sex" value="Female" placeholder="Sex" class="form-control" />Female
+            </div>
             <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
@@ -104,7 +125,12 @@
         <div class="col-3">
           <div class="form-group">
             <label>Age</label>
-            <input formControlName="age" type="number" placeholder="Age" class="form-control" />
+            <div class="input-group">
+              <span> Years : </span> &nbsp; <input formControlName="ageYears" type="number" placeholder="Years"
+                class="form-control" /> &nbsp;
+              Months: &nbsp;<input formControlName="ageMonths" type="number" placeholder="Months"
+                class="form-control" />
+            </div>
             <!-- <div *ngIf="f.source.invalid && (f.source.dirty || f.source.touched)" class="alert alert-danger">
                 This client is not available. Please add this to proceed.
             </div> -->
@@ -150,6 +176,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Test</th>
+              <th scope="col">Is Heading</th>
               <th scope="col">Result</th>
               <!-- <th scope="col">Difference</th> -->
               <th scope="col">Units</th>
@@ -158,11 +185,13 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody formArrayName="tests">
-            <tr *ngFor="let item of tests().controls; let i = index;" [formGroupName]="i">
+          <tbody formArrayName="parameters">
+            <tr *ngFor="let item of parametersFormArray().controls; let i = index;" [formGroupName]="i">
               <td>{{ i + 1 }}</td>
-              <td><input formControlName="testName" placeholder="Test Name" class="form-control" /></td>
-              <td><input formControlName="result" placeholder="Result" class="form-control" /></td>
+              <td><input formControlName="name" placeholder="Test Name" class="form-control" /></td>
+              <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
+              <td #td (keydown.enter)="onKeydown($event)"><input formControlName="result" placeholder="Result"
+                  class="form-control" /></td>
               <!-- <td>
           <input formControlName="up" placeholder="Up" class="form-control">
           <input formControlName="down" placeholder="Down" class="form-control">
@@ -178,14 +207,96 @@
       <div class="row">
         <div class="ml-auto form-group">
           <button class="btn btn-primary" (click)="addTestParameter()" type="button">Add Parameter</button>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Interpretation</th>
+              <th scope="col">Is Heading</th>
+              <th class="w-50" scope="col">Result</th>
+              <th scope="col">Expected Result</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="interpretations">
+            <tr *ngFor="let item of interpretationsFormArray().controls; let i = index;" [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td><input formControlName="name" placeholder="Interpretation Name" class="form-control" /></td>
+              <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
+              <td #td (keydown.enter)="onKeydown($event)"><input formControlName="result" placeholder="Result"
+                  class="form-control" /></td>
+              <td><input formControlName="expectedResult" placeholder="Interpretation Name" class="form-control" /></td>
+              <td><button class="btn btn-danger" (click)="removeInterpretationParameter(i)"
+                  type="button">Remove</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="ml-auto form-group">
+          <button class="btn btn-primary" (click)="addInterpretationParameter()" type="button">Add
+            Interpretation</button>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Test</th>
+              <th scope="col">Is Heading</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="parametersWithoutRange">
+            <tr *ngFor="let item of parametersWithoutRangeFormArray().controls; let i = index;" [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td><input formControlName="name" placeholder="Parameter Name" class="form-control" /></td>
+              <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
+              <td #td (keydown.enter)="onKeydown($event)">
+                <input formControlName="result" placeholder="Result" class="form-control" />
+              </td>
+              <td><button class="btn btn-danger" (click)="removeParameterWithoutRange(i)" type="button">Remove</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="ml-auto form-group">
+          <button class="btn btn-primary" (click)="addParameterWithoutRange()" type="button">Add
+            Parameter</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Comments:</label>
+              <input formControlName="comments" placeholder="Comments" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <img src={{url}} alt="Uploaded Photo">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ml-auto form-group">
+          <input #inputFile name="filename" placeholder="File Name" type="file" (change)="onFileChanged($event)">
           &nbsp;
-          <!-- <button class="btn btn-primary" type="submit">Save Sample</button>
-          &nbsp; -->
-          <a target="_blank" routerLink="../report-plain" class="btn btn-primary" (click)="passObject()">Print</a>
+          <button class="btn btn-primary" type="submit">Save Sample</button>
           &nbsp;
-          <a target="_blank" routerLink="../report-withheaderfooter" class="btn btn-primary" (click)="passObject()">Report</a>
+          <a class="btn btn-primary" (click)="openReport('../report-plain')">Print</a>
+          &nbsp;
+          <a class="btn btn-primary" (click)="openReport('../report-withheaderfooter')">Report</a>
         </div>
       </div>
     </form>
   </div>
 </div>
+<app-toasts-container aria-live="polite" aria-atomic="true"></app-toasts-container>

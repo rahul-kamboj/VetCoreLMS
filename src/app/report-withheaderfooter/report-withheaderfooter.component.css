@@ -4,7 +4,7 @@
 }
 
 .page-header {
-  height: 230px;
+  height: 150px;
   margin-top: 0px;
   background-repeat: no-repeat;
   background-size: contain;
@@ -12,16 +12,40 @@
 }
 
 .page-footer {
-  height: 550px;
+  height: 360px;
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: contain;
   background-image: url("./../../images/report-fotter.png");
 }
 
+tr{
+  border-top: hidden;
+}
+
+/* td {
+  padding-top: 10px;
+  padding-bottom: 20px;
+} */
+
 @media print {
   * {
-      -webkit-print-color-adjust: exact !important; /*Chrome, Safari */
-      color-adjust: exact !important;  /*Firefox*/
-    }
+    -webkit-print-color-adjust: exact !important;
+    /*Chrome, Safari */
+    color-adjust: exact !important;
+    /*Firefox*/
   }
+
+  div {
+    break-inside: avoid;
+  }
+
+  table {
+    page-break-before: avoid;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+}

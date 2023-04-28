@@ -2,85 +2,170 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col-6">
-        <strong>Pet Name:</strong>&nbsp; {{ formValue.petName }}
-      </div>
-      <div class="col-6">
-        <strong>Name Of Owner:</strong>&nbsp; {{ formValue.nameOfOwner }}
-      </div>
+      <div class="col"><strong>Pet Name:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.petName }}</div>
+      <div class="col"><strong>Name Of Owner:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.nameOfOwner }}</div>
     </div>
     <div class="row">
-      <div class="col-6">
-        <strong>Species:</strong>&nbsp; {{ formValue.species }}
-      </div>
-      <div class="col-6">
-        <strong>Source:</strong>&nbsp; {{ formValue.source }}
-      </div>
+      <div class="col"><strong>Species:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.species }}</div>
+      <div class="col"><strong>Source:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.source }}</div>
     </div>
     <div class="row">
-      <div class="col-6">
-        <strong>Breed:</strong>&nbsp; {{ formValue.breed }}
-      </div>
-      <div class="col-6">
-        <strong>Name Of Doctor:</strong>&nbsp; {{ formValue.nameOfDoctor }}
-      </div>
+      <div class="col"><strong>Breed:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.breed }}</div>
+      <div class="col"><strong>Name Of Doctor:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.nameOfDoctor.name }}</div>
     </div>
     <div class="row">
-      <div class="col-6"><strong>Sex:</strong>&nbsp; {{ formValue.sex }}</div>
-      <div class="col-6">
-        <strong>Sample Received On:</strong>&nbsp;
-        {{ formValue.sampleReceivedOn | date : "dd/MM/yyyy" }}
-      </div>
+      <div class="col"><strong>Sex:</strong>&nbsp; </div>
+      <div class="col">{{ formValue.sex }}</div>
+      <div class="col"><strong>Sample Received On:</strong>&nbsp;</div>
+      <div class="col">{{ formValue.sampleReceivedOn | date : "dd/MM/yyyy" }}</div>
     </div>
     <div class="row">
-      <div class="col-6"><strong>Age:</strong>&nbsp; {{ formValue.age }}</div>
-      <div class="col-6">
-        <strong>Reported On:</strong>&nbsp;
-        {{ formValue.reportedOn | date : "dd/MM/yyyy" }}
+      <div class="col"><strong>Age:</strong>&nbsp;</div>
+      <div class="col">
+        <span *ngIf="formValue.ageYears > 0"> {{ formValue.ageYears }}
+          <span *ngIf="formValue.ageYears > 1">Years</span>
+          <span *ngIf="!(formValue.ageYears > 1)"> Year</span>
+        </span>
+        <span *ngIf="formValue.ageMonths > 0"> {{ formValue.ageMonths }}
+          <span *ngIf="formValue.ageMonths > 1">Months</span>
+          <span *ngIf="!(formValue.ageMonths > 1)"> Month</span>
+        </span>
       </div>
+      <div class="col"><strong>Reported On:</strong>&nbsp;</div>
+      <div class="col">{{ formValue.reportedOn | date : "dd/MM/yyyy" }}</div>
     </div>
     <div class="row">
-      <div class="col-6">
-        <strong>Patient Id:</strong>&nbsp; {{ formValue.patientId }}
-      </div>
-      <div class="col-6">
-        <strong>Lab No:</strong>&nbsp; {{ formValue.labNo }}
-      </div>
+      <div class="col"><strong>Patient Id:</strong>&nbsp;</div>
+      <div class="col"> {{ formValue.patientId }} </div>
+      <div class="col"><strong>Lab No:</strong>&nbsp;</div>
+      <div class="col">{{ formValue.labNo }}</div>
     </div>
-    <hr />
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-12">
         <div class="text-center">
           <div class="col">
-            <h5>Complete Blood Count(DOG)</h5>
+            <h5><u>{{ formValue.reportName }}</u></h5>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Test</th>
-            <th scope="col">Result</th>
-            <th scope="col">Units</th>
-            <th scope="col">Reference Range</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let test of formValue.tests">
-            <td>{{ test.testName }}</td>
-            <td>
-              <span [class.highlight]="test.result < test.lowRangeValue || test.result > test.highRangeValue">
-                {{ test.result }}
-              </span>
-            </td>
-            <td>{{ test.units }}</td>
-            <td>{{ test.lowRangeValue + ' - ' + test.highRangeValue }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- <div class="table-responsive-sm"> -->
+    <table *ngIf="formValue.parameters.length > 0" class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Test</th>
+          <th style="text-align: left;" scope="col" class="w-25">Result</th>
+          <th scope="col" class="w-5">Units</th>
+          <th style="text-align: center;" scope="col" class="w-5">Reference Range</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let testParameter of formValue.parameters">
+          <td
+            [ngStyle]="{'font-weight': (testParameter.isHeading) ? 'bold' : '','text-decoration': (testParameter.isHeading) ? 'underline' : ''}">
+            {{ testParameter.name }}</td>
+          <td style="text-align: left;">
+            <span
+              *ngIf="((testParameter.lowRangeValue?.trim() ?? '') == '' && (testParameter.highRangeValue?.trim() ?? '') == '')"
+              [innerHTML]="testParameter.result"></span>
+            <span
+              *ngIf="!((testParameter.lowRangeValue?.trim() ?? '') == '' && (testParameter.highRangeValue?.trim() ?? '') == '')"
+              [class.highlight]="(testParameter.isHeading ?? 'false') != 'true'
+               && (+testParameter.result < +testParameter.lowRangeValue || +testParameter.result > +testParameter.highRangeValue
+              || ((testParameter.lowRangeValue?.trim() ?? '') == '' && testParameter.highRangeValue != testParameter.result))"
+              [innerHTML]="testParameter.result">
+              <!-- {{ test.result }} -->
+            </span>
+          </td>
+          <td>{{ testParameter.units }}</td>
+          <td style="text-align: center;" *ngIf="!testParameter.isHeading">
+            <span *ngIf="testParameter.lowRangeValue && testParameter.lowRangeValue?.trim() != ''"> {{
+              testParameter.lowRangeValue + ' -' }} </span>
+            <span [innerHTML]="testParameter.highRangeValue"></span>
+            <!-- {{ testParameter.highRangeValue }} -->
+          </td>
+          <td *ngIf="testParameter.units?.trim() == ''"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row pt-0">
+      <div class="col-8">
+        <table class="table table-sm">
+          <!-- <thead>
+        <tr>
+          <th scope="col">Test</th>
+          <th style="text-align: left;" scope="col">Result</th>
+          <th scope="col">Units</th>
+          <th style="text-align: center;" scope="col">Reference Range</th>
+        </tr>
+      </thead> -->
+          <tbody>
+            <tr *ngFor="let interpretation of formValue.interpretations">
+              <td
+                [ngStyle]="{'font-weight': (interpretation.isHeading) ? 'bold' : '','text-decoration': (interpretation.isHeading) ? 'underline' : ''}">
+                {{ interpretation.name }}
+              </td>
+              <td style="text-align: left;">
+                <span
+                  [ngStyle]="{'font-weight': (interpretation.result != interpretation.expectedResult) ? 'bold' : ''}"
+                  [innerHTML]="interpretation.result">
+                  <!-- {{ test.result }} -->
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="formValue.imageUrl && formValue.interpretations.length > 0" class="col-sm-3">
+        <img src={{formValue.imageUrl}} alt="Uploaded Photo" class="img-fluid">
+      </div>
     </div>
+    <div class="row pt-0" *ngIf="formValue.parametersWithoutRange && formValue.parametersWithoutRange.length > 0">
+      <div class="col-8">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Test</th>
+              <th style="text-align: left;" scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of formValue.parametersWithoutRange">
+              <td [ngStyle]="{'font-weight': (item.isHeading) ? 'bold' : '','text-decoration': (item.isHeading) ? 'underline' : ''}">{{ item.name }}
+              </td>
+              <td style="text-align: left;">
+                <span [innerHTML]="item.result">
+                  <!-- {{ test.result }} -->
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="formValue.imageUrl && formValue.parametersWithoutRange.length > 0" class="col-sm-3 mt-auto">
+        <img src={{formValue.imageUrl}} alt="Uploaded Photo" class="img-fluid">
+      </div>
+    </div>
+    <!-- </div> -->
+    <div class="row" *ngIf="formValue.comments">
+      <div class="col-12">
+        <strong>Comments:</strong>&nbsp;
+        <span [innerHTML]="formValue.comments"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div
+    *ngIf="formValue.imageUrl && formValue.interpretations.length == 0 && formValue.parametersWithoutRange.length == 0"
+    class="col-12 text-center">
+    <img src={{formValue.imageUrl}} alt="Uploaded Photo" class="img-fluid">
   </div>
 </div>
 <div class="page-footer"></div>

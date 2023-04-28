@@ -1,0 +1,28 @@
+<div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/reports"><b> Reports</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/create-report/0"><b> Create Report</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/report-withheaderfooter"><b> View Last Generated Report</b></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Main content -->
+    <main class="main">
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+        </ol>
+        <div class="container-fluid">
+            <div class="animated fadeInRight">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,72 @@
+<div class="row">
+    <!-- Basic Panel -->
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <p class="m-0">Reports</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <a [routerLink]="['/create-report', 0]" class="btn btn-success mt-1 float-right">Create New
+                            Report</a>
+                    </div>
+                </div>
+                <div class="row">
+                    &nbsp;
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Pet Name</th>
+                                    <th scope="col">Owner Name</th>
+                                    <th scope="col">Dr. Name</th>
+                                    <th scope="col">Report Name</th>
+                                    <th scope="col">Sample Date</th>
+                                    <th scope="col">Report Date</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let report of reports; index as i">
+                                    <th scope="row">{{ (((page - 1) * pageSize) + i + 1) }}</th>
+                                    <td>{{ report.value.petName }}</td>
+                                    <td>{{ report.value.nameOfOwner }}</td>
+                                    <td>{{ report.value.nameOfDoctor?.name }}</td>
+                                    <td>{{ report.value.reportName }}</td>
+                                    <td>{{ report.value.sampleReceivedOn | date : "dd/MM/yyyy"}}</td>
+                                    <td>{{ report.value.reportedOn | date : "dd/MM/yyyy" }}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-grid"
+                                            [routerLink]="['/create-report', report.reportId]">Edit</button>
+                                        &nbsp;&nbsp;
+                                        <button (click)="deleteReport(report.reportId)"
+                                            class="btn btn-info btn-grid">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                                (pageChange)="refreshReports()">
+                            </ngb-pagination>
+
+                            <select class="custom-select" style="width: auto" [(ngModel)]="pageSize"
+                                (ngModelChange)="refreshReports()">
+                                <option [ngValue]="2">2 items per page</option>
+                                <option [ngValue]="4">4 items per page</option>
+                                <option [ngValue]="6">6 items per page</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- end. card-body -->
+        </div> <!-- end . card -->
+    </div>
+    <!--/.col-->
+</div> <!-- end .row -->
+<app-toasts-container aria-live="polite" aria-atomic="true"></app-toasts-container>
