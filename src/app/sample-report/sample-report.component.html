@@ -1,7 +1,7 @@
 <div class="card">
   <h4 class="card-header">Create Sample Report</h4>
   <div class="card-body">
-    <form [formGroup]="sampleForm" (ngSubmit)="onSubmit(sampleForm.value)">
+    <form [formGroup]="sampleForm">
       <div class="row">
         <div class="col-12">
           <div class="form-row">
@@ -54,8 +54,8 @@
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
               </ng-template>
               <label>Name Of Doctor</label>
-              <input id="typeahead-focus" formControlName="nameOfDoctor" placeholder="Name Of Doctor" [ngbTypeahead]="searchDoctor"
-                (focus)="focus$.next($any($event).target.value)" [resultTemplate]="rt"
+              <input id="typeahead-focus" formControlName="nameOfDoctor" placeholder="Name Of Doctor"
+                [ngbTypeahead]="searchDoctor" (focus)="focus$.next($any($event).target.value)" [resultTemplate]="rt"
                 (click)="click$.next($any($event).target.value)" [inputFormatter]="doctorFormatter"
                 class="form-control" />
               <!-- <div *ngIf="f.petName.invalid && (f.petName.dirty || f.petName.touched)" class="alert alert-danger">
@@ -190,7 +190,7 @@
               <td>{{ i + 1 }}</td>
               <td><input formControlName="name" placeholder="Test Name" class="form-control" /></td>
               <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
-              <td #td (keydown.enter)="onKeydown($event)"><input formControlName="result" placeholder="Result"
+              <td #td (keydown.Tab)="onKeydown($event)"><input formControlName="result" placeholder="Result"
                   class="form-control" /></td>
               <!-- <td>
           <input formControlName="up" placeholder="Up" class="form-control">
@@ -225,7 +225,7 @@
               <td>{{ i + 1 }}</td>
               <td><input formControlName="name" placeholder="Interpretation Name" class="form-control" /></td>
               <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
-              <td #td (keydown.enter)="onKeydown($event)"><input formControlName="result" placeholder="Result"
+              <td #td (keydown.Tab)="onKeydown($event)"><input formControlName="result" placeholder="Result"
                   class="form-control" /></td>
               <td><input formControlName="expectedResult" placeholder="Interpretation Name" class="form-control" /></td>
               <td><button class="btn btn-danger" (click)="removeInterpretationParameter(i)"
@@ -255,7 +255,7 @@
               <td>{{ i + 1 }}</td>
               <td><input formControlName="name" placeholder="Parameter Name" class="form-control" /></td>
               <td><input type="checkbox" formControlName="isHeading" class="form-control" /></td>
-              <td #td (keydown.enter)="onKeydown($event)">
+              <td #td (keydown.Tab)="onKeydown($event)">
                 <input formControlName="result" placeholder="Result" class="form-control" />
               </td>
               <td><button class="btn btn-danger" (click)="removeParameterWithoutRange(i)" type="button">Remove</button>
@@ -282,14 +282,14 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <img src={{url}} alt="Uploaded Photo">
+          <img src={{imageUrlFormControl().value}} alt="Uploaded Photo">
         </div>
       </div>
       <div class="row">
         <div class="ml-auto form-group">
           <input #inputFile name="filename" placeholder="File Name" type="file" (change)="onFileChanged($event)">
           &nbsp;
-          <button class="btn btn-primary" type="submit">Save Sample</button>
+          <a class="btn btn-primary" (click)="saveData()">Save Sample</a>
           &nbsp;
           <a class="btn btn-primary" (click)="openReport('../report-plain')">Print</a>
           &nbsp;

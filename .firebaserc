@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "vetcorelms"
+  },
+  "targets": {
+    "vetcorelms": {
+      "hosting": {
+        "VetCoreLMS": [
+          "vetcorelms"
+        ]
+      }
+    }
+  }
+}

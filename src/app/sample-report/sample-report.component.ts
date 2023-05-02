@@ -9,6 +9,7 @@ import { DOCTORS } from '../constants/doctors-list';
 import { NgbTypeahead, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { SampleService } from '../sample.service';
 
 @Component({
   selector: 'app-sample-report',
@@ -25,19 +26,20 @@ export class SampleReportComponent implements OnInit {
   filteredTestTypes: ISample[] = TESTTYPES;
   doctors: IDoctor[] = DOCTORS;
   sampleForm: FormGroup;
-  reportId: string | null = null;
+  reportId: string = "0";
   reportData: any;
-  url: string | ArrayBuffer | null;
+  // url: string | ArrayBuffer | null;
   @HostListener('document:keydown.control.r')
   openReportShortcut() { this.openReport('../report-withheaderfooter'); }
 
   @HostListener('document:keydown.alt.s')
-  saveReport() { this.onSubmit(this.sampleForm.value); }
+  saveReport() { this.saveData(); }
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private sampleService: SampleService,
     public toastService: ToastService,
     config: NgbTypeaheadConfig) {
     // force route reload whenever params change;
@@ -46,15 +48,10 @@ export class SampleReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.reportId = params.get('reportId');
+      this.reportId = params.get('reportId') ?? "0";
     });
 
-    if (this.reportId != "0") {
-      const reports = JSON.parse(localStorage.getItem('reports') ?? '[]');
-      const reportData = (reports as any[]).find(x => x.reportId == this.reportId);
-      this.reportData = reportData.value;
-      console.log(this.reportData);
-    }
+
 
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
     var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 16);
@@ -84,7 +81,8 @@ export class SampleReportComponent implements OnInit {
     });
 
     this.f.searchTest.valueChanges.subscribe(testName => {
-      this.filteredTestTypes = this.testTypes.filter(option => option.displayName.toLowerCase().includes(testName?.toLowerCase()));
+      if (testName)
+        this.filteredTestTypes = this.testTypes.filter(option => option.displayName.toLowerCase().includes(testName?.toLowerCase()));
     });
 
     this.f.testType.valueChanges.subscribe(testId => {
@@ -96,8 +94,14 @@ export class SampleReportComponent implements OnInit {
     });
 
     this.getClauseListComponent(["0"]);
-
-    this.sampleForm.patchValue(this.reportData);
+    if (this.reportId != "0") {
+      this.sampleService.getAllReports().subscribe(result => {
+        if (result?.length == 0)
+          this.sampleService.refreshReports();
+        this.reportData = result.find(x => x.reportId == this.reportId)?.value;
+        this.sampleForm.patchValue(this.reportData);
+      });
+    }
   }
 
   getClauseListComponent(testIds: string[]): void {
@@ -109,7 +113,6 @@ export class SampleReportComponent implements OnInit {
     testsWithoutRangeFormArrayControl.clear();
 
     this.imageUrlFormControl().setValue('');
-    this.url = '';
 
     const selectedTests = this.testTypes.filter(x => testIds.includes(x.id));
     let selectedTest: ISample = <ISample>{};
@@ -234,26 +237,18 @@ export class SampleReportComponent implements OnInit {
   }
 
   openReport(url: string) {
-    console.log(this.sampleForm.value);
-    console.log("json", JSON.stringify(this.sampleForm.value));
-    localStorage.setItem('reportresult', JSON.stringify(this.sampleForm.value));
+    localStorage.setItem('reportresult', JSON.stringify(this.sampleForm.getRawValue()));
     window.open(url, "_blank");
   }
 
-  onSubmit(value: any) {
+  saveData() {
+    const value = this.sampleForm.getRawValue();
+    value.searchTest = undefined;
     const reports = JSON.parse(localStorage.getItem('reports') ?? '[]');
 
-    if (this.reportId == "0") {
-      const maxReportId = +(localStorage.getItem('maxreportid') ?? '0') + 1;
-      localStorage.setItem('maxreportid', maxReportId.toString());
-      reports.push({ reportId: maxReportId, value: value });
-      this.reportId = maxReportId.toString();
-    }
-    else {
-      const reportData = (reports as any[]).find(x => x.reportId == this.reportId);
-      reportData.value = value;
-    }
-    localStorage.setItem('reports', JSON.stringify(reports));
+    const sampleValue = { id: this.reportId, ...value };
+    const docId = this.sampleService.addSample(JSON.parse(JSON.stringify(sampleValue)), this.reportId);
+    this.reportId = docId;
     this.toastService.show('Report saved successfully', { classname: 'bg-success text-light', delay: 10000 });
   }
 
@@ -261,6 +256,7 @@ export class SampleReportComponent implements OnInit {
     let cellsArray = this.cells.toArray();
     const idx = cellsArray.findIndex(z => z.nativeElement.children[0] === e.target);
     cellsArray[idx + 1].nativeElement.children[0].focus();
+    return false;
   }
 
   onFileChanged(event: any) {
@@ -278,8 +274,8 @@ export class SampleReportComponent implements OnInit {
     //this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.url = reader.result;
-      this.imageUrlFormControl().setValue(this.url);
+      const imageArray = reader.result;
+      this.imageUrlFormControl().setValue(imageArray);
     }
 
     // Clear the input

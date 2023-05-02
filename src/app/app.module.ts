@@ -11,6 +11,9 @@ import { ReportPlainComponent } from './report-plain/report-plain.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ToastsContainerComponent } from './toasts-container/toasts-container.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]

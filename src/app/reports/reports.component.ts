@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '../toast.service';
+import { SampleService } from '../sample.service';
 
 @Component({
   selector: 'app-reports',
@@ -14,7 +15,7 @@ export class ReportsComponent implements OnInit {
   pageSize = 4;
   collectionSize: number;
 
-  constructor(public toastService: ToastService) { }
+  constructor(public toastService: ToastService, private sampleService: SampleService) { }
 
   ngOnInit(): void {
     this.getReports();
@@ -26,7 +27,17 @@ export class ReportsComponent implements OnInit {
   }
 
   getReports(): void {
-    this.reports = JSON.parse(localStorage.getItem('reports') ?? '[]');
+    // this.reports = JSON.parse(localStorage.getItem('reports') ?? '[]');
+    // this.reports = [{ reportId: "0", value: "" }];
+    // this.sampleService.getAll()
+    //   .then(result => {
+    //      this.reports = result.docs.map(x => ({ reportId: x.id, value: x.data() }));
+    //      console.log(this.reports);
+    //   });
+    this.sampleService.refreshReports();
+    this.sampleService.getAllReports().subscribe(result => {
+      this.reports = result;
+    });
   }
 
   deleteReport(reportId: string): void {
